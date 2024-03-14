@@ -1,0 +1,106 @@
+1.- Descargar apache tomcat y el driver de conexion y colocarlo en el disco local c
+2.- Crear la base de datos
+3.- Ingresar a eclipse -- y crear el proyecto --> file- Maven proyect 
+
+   Filter: maven-archetype-web --- version 1.4 
+
+    Grupo Id-- com.mx.nombreProyecto
+    Artifact -- nombre del proyecto 
+    packege-- com.mx.nombreProyecto -> se trabaja sobre el mismo nivel 
+
+4.- Limpiar el proyecto --> por que genera archivos basura -- missing 
+    clic derecho -- propiedades -- java build pach y eliminar los archivs perdidos o missing 
+
+    crear la carpeta java a nivel del main 
+
+5.- cargar el servidor  --> solo se hace una vez en el espacio de trabajo
+
+    	Windows--> Show View --> Server --> Servers --> clic en NO Servers --> Apache --> version 9 --> brows: 	buscar en el disco local C: (Solo carpeta)
+     configurar el puerto : pueden usar cualquier puerto, siempre y cuando este disponible
+     ---tiempo de respuesta del servidor
+
+6.- Ingresar el driver de oracle --- en el disco local c
+    es agregar el apuntador --> solo se hace una vez:
+
+     clic derecho sobre el proyecto 
+     Run As --> 5.-maven buil...
+
+Goals: install:install-file -DgroupId=com.oracle -DartifactId=ojdbc11 -Dversion=11.2.0.3 -Dpackaging=jar -Dfile=C:/ojdbc11.jar -DgeneratePom=true --> Run
+
+
+                Buil Success--> todo esta bien 
+7.- Agregar las dependencias al archivo pom.xml --> Proyect Object Model --> es un archivo de configuracion --> contiene todas las depencias que necesites -> para que tu aplicion fincione correctamente 
+
+--DEPENDENCIAS PARA EL ARCHIVO POM.XML--- SE PEGA DESPUÉS DEL JUNIT
+<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc11</artifactId>
+			<version>11.2.0.3</version>
+		</dependency>
+            <dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-core</artifactId>
+			<version>1.19</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-json</artifactId>
+			<version>1.19</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-servlet</artifactId>
+			<version>1.19</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.thetransactioncompany</groupId>
+			<artifactId>cors-filter</artifactId>
+			<version>2.6</version>
+		</dependency>
+
+8.- Agregar paquetes
+     Entidad,Model,Dominio --1 -->mapear las tablas de la bd 
+	
+     General --2  para tenere respuesta del servidor
+         Metodos --> interface
+         Conexion a la BD
+         EstatusRespuesta -> clase donde me mande una respuesta
+    
+     Dao --- 3  aqui vamos a realizar la implemnetacion --> la logica de la aplicacion
+
+     Controller --4 vamos a probar la logica de la apliacion con codigo duro--> podremos realizar la web service
+    
+     
+9--- webService ---  ultimo paso para relizar la web service 
+    web.xml --> configurar --> afectar 3 lineas de codigo
+
+<filter>
+    <filter-name>CORS</filter-name>
+    <filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>CORS</filter-name>
+    <!-- <url-pattern>/service/*</url-pattern> -->
+    <url-pattern>/nombreProyecto/*</url-pattern>
+  </filter-mapping>
+ 
+  <servlet>
+   <servlet-name>ServiceWS</servlet-name>
+   <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+   
+   <init-param>
+ <param-name>com.sun.jersey.config.property.packages</param-name>
+   	<param-value>com.mx.nombrePaquete</param-value> ///Se agrega el nombre del paquete donde va el servicio ejemplo com.mx.webService
+   </init-param>
+   <init-param>
+   	<param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
+   	<param-value>true</param-value>
+   </init-param>
+   <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ServiceWS</servlet-name>
+  	<url-pattern>/nombreProyecto/*</url-pattern>
+  </servlet-mapping>
+

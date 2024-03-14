@@ -1,0 +1,11 @@
+1.- instalar Node.js --> navegador --> .msi -- > Ya incluye npm
+     abrir cmd y ver versiones
+	node -v
+	np -v
+2.- instalar TypeScript
+	comando: npm install -g typescript
+
+3.- Instalar Angular
+	npm install -g @angular/cli
+	saber version
+	ng version

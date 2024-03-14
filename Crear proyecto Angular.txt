@@ -1,0 +1,33 @@
+1.- Abrir cmd --> entrar a la carpeta donde se va a crear el proyecto
+C:\Users\Windows 10\Desktop\CarpetaTrabajo>
+	ng new NombreProyecto
+
+
+2.- Abrirlo en Visual
+	C:\Users\Windows 10\Desktop\CarpetaTrabajo> code .
+
+3.- Añadir los link y script de diseños y estilos en el index.tml
+	Los link van dentro de head y los script van dentro del body
+
+4.- En el app.component.html se manda a llamar los componentes que queremos que aparezca directamente
+
+5.- Crear los componentes. En este caso va a depender cuantos componentes tendrá o cómo se va a dividir
+
+	ng g c CarpetaComponentes/nombreComponente
+
+    - Trabajar en los componentes
+    -Modificar el html del componente creado
+    -Hacer la lógica y funciones en el component.ts
+	Botones, slider, loading, login, etc.
+    - Si se va a crear un formulario se crea el form:FormGroup
+
+    -Se crear un constructot y dentro de ello se se importa el router:Router y service:ServicioService en privado. En caso de usar Login se usa lo siguiente
+
+    FormBuilder: Construir los formularios,
+    Router: enrutar o navegar hacia los componentes,
+    Service: consumir un servicio(web service),
+    HttpClient: lanzar peticiones al servidor
+
+7.- Crear los servicios.
+	ng g s CarpetaService/servicio
+	-al crear un formulario se coloca dentro de
